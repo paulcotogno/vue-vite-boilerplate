@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useApplicantStore } from '../stores/applicant.store';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,8 +49,32 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: () => import('../views/ContactView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/404View.vue')
     }
   ]
 })
+
+router.beforeEach(async (to, from, next) => {
+  const store = useApplicantStore();
+
+  let isAuthenticated = localStorage.getItem("isAuthenticated");
+
+  console.log(store.userProfile.bullhorn_id, isAuthenticated);
+
+  if (store.userProfile.bullhorn_id === ""/* && isAuthenticated*/) {
+    await store.SetUserProfile();
+    console.log(store.userProfile.bullhorn_id);
+  }
+  return next();
+});
+
+router.resolve({
+  name: 'not-found',
+  params: { pathMatch: ['not', 'found'] },
+}).href
 
 export default router

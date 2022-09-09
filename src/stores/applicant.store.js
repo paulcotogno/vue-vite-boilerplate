@@ -1,24 +1,31 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import instance from "../services/axios/instance";
+import subscribe from "../services/sse/subscribe.vue";
 
 export const useApplicantStore = defineStore("applicant", () => {
-  const list_offers_favorite = ref([]);
-  const list_offers_suggested = ref([]);
-  const list_offers_apply = ref([]);
-  const email = ref("");
-  const name = ref("");
+  const userProfile = ref({
+    bullhorn_id: "",
+    name: "",
+    email: "",
+    list_offers_apply: [],
+    list_offers_suggested: [],
+    list_offers_apply: [],
+  });
 
-  const doubleCount = computed(() => count.value * 2);
+  const SetUserProfile = async (commit) => {
+    const response = await instance.get("applicants/").catch((err) => {
+      console.log(err);
+    });
 
-  function increment() {
-    count.value++;
-  }
+    if (response && response.data) {
+      userProfile.value = response.data;
+      subscribe.setup(userProfile.value.bullhorn_id);
+    }
+  };
 
   return {
-    list_offers_favorite,
-    list_offers_suggested,
-    list_offers_apply,
-    email,
-    name
+    userProfile,
+    SetUserProfile
   };
 });

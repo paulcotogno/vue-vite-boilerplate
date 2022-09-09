@@ -1,27 +1,24 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { onBeforeMount } from 'vue';
-import router from './router';
+import { onBeforeMount, onMounted } from "vue";
+import router from "./router";
+import { useApplicantStore } from "./stores/applicant.store";
+
+const store = useApplicantStore();
 
 onBeforeMount(() => {
   const queryString = window.location.search;
   const params = new URLSearchParams(queryString);
-  const page = params.get('page');
-  if(page) {
+  const page = params.get("page");
+  if (page) {
     router.push(`/${page}`);
   }
-})
+});
 
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
@@ -30,8 +27,13 @@ onBeforeMount(() => {
         <RouterLink to="/candidat">Candidat</RouterLink>
         <RouterLink to="/espace-candidat">Mon espace</RouterLink>
         <RouterLink to="/recruteur">Recruteur</RouterLink>
-        <RouterLink to="/recuperation-mot-de-passe">Récup mot de passe</RouterLink>
+        <RouterLink to="/recuperation-mot-de-passe"
+          >Récup mot de passe</RouterLink
+        >
       </nav>
+    </div>
+    <div class="profile">
+      {{ store.userProfile.name }}
     </div>
   </header>
 
