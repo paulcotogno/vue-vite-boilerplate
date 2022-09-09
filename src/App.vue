@@ -1,6 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { onBeforeMount } from 'vue';
+import router from './router';
+
+onBeforeMount(() => {
+  const queryString = window.location.search;
+  const params = new URLSearchParams(queryString);
+  const page = params.get('page');
+  if(page) {
+    router.push(`/${page}`);
+  }
+})
+
 </script>
 
 <template>

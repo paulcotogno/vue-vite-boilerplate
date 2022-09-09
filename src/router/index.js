@@ -52,11 +52,4 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (req, res, next) => {
-  if(req.params.page) {
-    return next({ path: `/${req.params.page}` });
-  }
-  return next();
-})
-
 export default router
