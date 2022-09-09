@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404</title>
     <script>
-        let location = window.location.href.split('/');
-        console.log(location[location.length - 1]);
-        //window.location.href = `/?page="${}"`;
+        let url = window.location.href.split('/');
+        window.location.href = `/?page="${url[url.length - 1]}"`;
     </script>
 </head>
 <body>
