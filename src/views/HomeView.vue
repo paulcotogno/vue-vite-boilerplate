@@ -20,7 +20,7 @@ source.addEventListener("message", (message) => {
 const listener = function (event) {
   const type = event.type;
 
-  window.console.log(`${type}: ${event.data || source.url}`);
+  console.log(`${type}: ${event.data || source.url}`);
 
   if (type === "result") {
     source.close();
